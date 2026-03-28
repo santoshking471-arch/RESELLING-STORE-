@@ -114,6 +114,8 @@ function loadProducts(){
     data.forEach(doc=>{
       let p=doc.data();
 
+      console.log(p);
+
       html+=`
       <div class="card">
         <img src="${p.image}" onclick="showDetails('${p.name}','${p.price}')">
