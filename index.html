@@ -116,7 +116,7 @@ function loadProducts(){
 
       html+=`
       <div class="card">
-        <img src="${p.img}" onclick="showDetails('${p.name}','${p.price}')">
+        <img src="${p.image}" onclick="showDetails('${p.name}','${p.price}')">
         <h4>${p.name}</h4>
 
         <div class="priceRow">
@@ -213,7 +213,7 @@ search.oninput=function(){
       if(p.name.toLowerCase().includes(val)){
         html+=`
         <div class="card">
-          <img src="${p.img}">
+          <img src="${p.image}">
           <h4>${p.name}</h4>
           <div class="priceRow">
             <span class="price">₹${p.price}</span>
