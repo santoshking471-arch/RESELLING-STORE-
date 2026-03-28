@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Santosh Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+<style>
+body {margin:0;font-family:Arial;background:#f1f5f9;}
+header {background:#0f172a;color:white;padding:10px;text-align:center;}
+#topBar {display:flex;justify-content:space-between;padding:10px;}
+
+button {padding:5px 8px;border:none;border-radius:5px;font-size:12px;}
+#ordersBtn {display:none;background:green;color:white;}
+#adminBtn {display:none;background:red;color:white;}
+
+#search {width:95%;margin:8px;padding:6px;}
+
+#products {
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:6px;
+padding:6px;
+}
+
+.card {
+background:white;
+padding:6px;
+border-radius:8px;
+text-align:center;
+}
+
+.card img {
+width:100%;
+height:100px;
+object-fit:cover;
+border-radius:6px;
+}
+
+.priceRow {
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.price {color:green;font-weight:bold;}
+.buy {background:#22c55e;color:white;}
+</style>
+</head>
+
+<body>
+
+<header>🛒 Santosh Store</header>
+
+<div id="topBar">
+<button id="ordersBtn">Orders</button>
+<button id="adminBtn">Upload</button>
+</div>
+
+<input id="search" placeholder="Search...">
+
+<div id="products"></div>
+
+<input type="file" id="imgFile" style="display:none;">
+
+<script>
+
+const ADMIN_EMAIL = "santoshking471@gmail.com";
+
+// FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyCA49EYDbqUnYu1sXs0ETDMIGaWxtoxXOM",
+  authDomain: "reselling-store-c103e.firebaseapp.com",
+  projectId: "reselling-store-c103e",
+  storageBucket: "reselling-store-c103e.appspot.com"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+// LOGIN CHECK
+auth.onAuthStateChanged(user=>{
+  if(user){
+    ordersBtn.style.display="inline-block";
+    if(user.email===ADMIN_EMAIL){
+      adminBtn.style.display="inline-block";
+    }
+  } else {
+    ordersBtn.style.display="none";
+    adminBtn.style.display="none";
+  }
+});
+
+// LOGIN
+function login(){
+  let email=prompt("Email");
+  let pass=prompt("Password");
+
+  auth.signInWithEmailAndPassword(email,pass)
+  .catch(()=>auth.createUserWithEmailAndPassword(email,pass));
+}
+
+// LOAD PRODUCTS
+function loadProducts(){
+  db.collection("products").onSnapshot(data=>{
+    let html="";
+    data.forEach(doc=>{
+      let p=doc.data();
+
+      html+=`
+      <div class="card">
+        <img src="${p.img}" onclick="showDetails('${p.name}','${p.price}')">
+        <h4>${p.name}</h4>
+
+        <div class="priceRow">
+          <span class="price">₹${p.price}</span>
+          <button class="buy" onclick="buy('${doc.id}','${p.name}','${p.price}')">Buy</button>
+        </div>
+      </div>`;
+    });
+
+    products.innerHTML=html;
+  });
+}
+
+// DETAILS POPUP
+function showDetails(name,price){
+  alert(
+    "🛒 Product Details\n\n"+
+    "Name: "+name+"\n"+
+    "Price: ₹"+price+"\n\n"+
+    "Click Buy to order 😎"
+  );
+}
+
+// BUY WITH PHONE
+function buy(id,name,price){
+  let user=auth.currentUser;
+
+  if(!user){
+    if(confirm("Login required")){
+      login();
+    }
+    return;
+  }
+
+  let cname=prompt("Enter Name");
+  let phone=prompt("Enter Mobile Number");
+  let address=prompt("Enter Address");
+
+  if(!phone || phone.length<10){
+    alert("Valid mobile number dal 😤");
+    return;
+  }
+
+  db.collection("orders").add({
+    productName:name,
+    price:price,
+    user:user.email,
+    name:cname,
+    phone:phone,
+    address:address,
+    time:new Date()
+  });
+
+  alert("Order Placed ✅");
+}
+
+// ADMIN IMAGE UPLOAD
+adminBtn.onclick=function(){
+
+  let name=prompt("Product Name");
+  let price=prompt("Price");
+
+  imgFile.click();
+
+  imgFile.onchange=function(){
+    let file=imgFile.files[0];
+
+    let ref=storage.ref("products/"+file.name);
+
+    ref.put(file).then(()=>{
+      ref.getDownloadURL().then(url=>{
+
+        db.collection("products").add({
+          name:name,
+          price:price,
+          img:url
+        });
+
+        alert("Uploaded ✅");
+      });
+    });
+  };
+};
+
+// SEARCH
+search.oninput=function(){
+  let val=this.value.toLowerCase();
+
+  db.collection("products").get().then(data=>{
+    let html="";
+    data.forEach(doc=>{
+      let p=doc.data();
+
+      if(p.name.toLowerCase().includes(val)){
+        html+=`
+        <div class="card">
+          <img src="${p.img}">
+          <h4>${p.name}</h4>
+          <div class="priceRow">
+            <span class="price">₹${p.price}</span>
+            <button class="buy" onclick="buy('${doc.id}','${p.name}','${p.price}')">Buy</button>
+          </div>
+        </div>`;
+      }
+    });
+
+    products.innerHTML=html;
+  });
+};
+
+// START
+loadProducts();
+
+</script>
+
+</body>
+</html>
