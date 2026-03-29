@@ -67,7 +67,7 @@ align-items:center;
 
 <div id="topBar">
 <button id="ordersBtn">Orders</button>
-<button id="adminBtn" style="display:none;">Upload</button>
+<button id="adminBtn" onclick="openUpload()" style="display:none;">Upload</button>
 </div>
 
 <input id="search" placeholder="Search...">
@@ -245,8 +245,39 @@ search.oninput=function(){
 
 // START
 loadProducts();
+function openUpload(){
+  document.getElementById("uploadBox").style.display = "block";
+}
 
+function uploadNow(){
+  let name = document.getElementById("pname").value;
+  let price = document.getElementById("pprice").value;
+  let file = document.getElementById("pimage").files[0];
+
+  let ref = storage.ref("products/" + file.name);
+
+  ref.put(file).then(()=>{
+    ref.getDownloadURL().then(url=>{
+
+      db.collection("products").add({
+        name:name,
+        price:price,
+        image:url
+      });
+
+      alert("Uploaded ✅");
+    });
+  });
+}
 </script>
+<div id="uploadBox" style="display:none; padding:10px;">
+  <h3>Upload Product</h3>
 
+  <input id="pname" placeholder="Product Name"><br><br>
+  <input id="pprice" placeholder="Price"><br><br>
+  <input type="file" id="pimage"><br><br>
+
+  <button onclick="uploadNow()">Upload Now</button>
+</div>
 </body>
 </html>
