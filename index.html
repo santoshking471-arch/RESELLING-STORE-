@@ -67,7 +67,7 @@ align-items:center;
 
 <div id="topBar">
 <button id="ordersBtn">Orders</button>
-<button id="adminBtn">Upload</button>
+<button id="adminBtn" style="display:none;">Upload</button>
 </div>
 
 <input id="search" placeholder="Search...">
@@ -95,15 +95,21 @@ const storage = firebase.storage();
 
 // LOGIN CHECK
 auth.onAuthStateChanged(user=>{
+  
+  // Orders sirf login pe
   if(user){
     ordersBtn.style.display="inline-block";
-    if(user.email===ADMIN_EMAIL){
-      adminBtn.style.display="inline-block";
-    }
   } else {
     ordersBtn.style.display="none";
+  }
+
+  // 🔥 Upload sirf admin ko
+  if(user && user.email === ADMIN_EMAIL){
+    adminBtn.style.display="inline-block";
+  } else {
     adminBtn.style.display="none";
   }
+
 });
 
 // LOGIN
@@ -202,7 +208,7 @@ adminBtn.onclick=function(){
         db.collection("products").add({
           name:name,
           price:price,
-          img:url
+          image:url
         });
 
         alert("Uploaded ✅");
