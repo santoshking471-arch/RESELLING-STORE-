@@ -190,32 +190,7 @@ function buy(id,name,price){
 }
 
 // ADMIN IMAGE UPLOAD
-adminBtn.onclick=function(){
 
-  let name=prompt("Product Name");
-  let price=prompt("Price");
-
-  imgFile.click();
-
-  imgFile.onchange=function(){
-    let file=imgFile.files[0];
-
-    let ref=storage.ref("products/"+file.name);
-
-    ref.put(file).then(()=>{
-      ref.getDownloadURL().then(url=>{
-
-        db.collection("products").add({
-          name:name,
-          price:price,
-          image:url
-        });
-
-        alert("Uploaded ✅");
-      });
-    });
-  };
-};
 
 // SEARCH
 search.oninput=function(){
