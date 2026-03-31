@@ -155,7 +155,32 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
+  
+function handleUser(){
+  const user = firebase.auth().currentUser;
 
+  if(user){
+    let menu = document.getElementById("userMenu");
+
+    if(menu.style.display === "block"){
+      menu.style.display = "none";
+    } else {
+      menu.style.display = "block";
+    }
+
+  } else {
+    window.location.href = "login.html";
+  }
+}
+
+function logout(){
+  firebase.auth().signOut()
+  .then(() => {
+    document.getElementById("userMenu").style.display = "none";
+    alert("Logout ho gaya 👍");
+    location.reload();
+  });
+}
 // LOGIN CHECK
 auth.onAuthStateChanged(user=>{
   
