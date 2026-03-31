@@ -21,7 +21,6 @@ body {
   width:300px;
   border-radius:10px;
   text-align:center;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 input {
@@ -40,7 +39,6 @@ button {
   border:none;
   border-radius:5px;
   cursor:pointer;
-  margin-top:5px;
 }
 </style>
 </head>
@@ -62,23 +60,25 @@ button {
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
 <script>
-// 🔥 Firebase Config
+// 🔥 FINAL CORRECT CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyCA49EYDbqUnYu1sXsOETDMIGaWxtoxXOM",
   authDomain: "reselling-store-c103e.firebaseapp.com",
   projectId: "reselling-store-c103e",
-  storageBucket: "reselling-store-c103e.appspot.com"
+  storageBucket: "reselling-store-c103e.appspot.com",
+  messagingSenderId: "411682468136",
+  appId: "1:411682468136:web:79cc2b622148f42a62e01d"
 };
 
-// 🔥 Init
 firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 
-// 🔐 SIGNUP
+// ✅ SIGNUP
 function signup(){
   const email = document.getElementById("email").value;
   const pass = document.getElementById("password").value;
 
-  firebase.auth().createUserWithEmailAndPassword(email, pass)
+  auth.createUserWithEmailAndPassword(email, pass)
   .then(() => {
     alert("Signup success 👍");
   })
@@ -87,12 +87,12 @@ function signup(){
   });
 }
 
-// 🔐 LOGIN
+// ✅ LOGIN
 function login(){
   const email = document.getElementById("email").value;
   const pass = document.getElementById("password").value;
 
-  firebase.auth().signInWithEmailAndPassword(email, pass)
+  auth.signInWithEmailAndPassword(email, pass)
   .then(() => {
     alert("Login success ✅");
     window.location.href = "index.html";
