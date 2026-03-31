@@ -108,6 +108,19 @@ align-items:center;
   ">
     👤
   </span>
+
+<div id="userMenu" style="
+display:none;
+position:absolute;
+right:10px;
+top:60px;
+background:white;
+padding:10px;
+border-radius:6px;
+box-shadow:0 2px 10px rgba(0,0,0,0.2);
+">
+  <div onclick="logout()" style="cursor:pointer;">Logout</div>
+</div>
 <div id="userMenu" style="
   display:none;
   position:absolute;
@@ -345,6 +358,29 @@ function buyNow(name, price, image){
   localStorage.setItem("pimage", image);
 
   window.location.href = "product.html";
+}
+  function handleUser(){
+  const user = firebase.auth().currentUser;
+
+  if(user){
+    const menu = document.getElementById("userMenu");
+
+    if(menu.style.display === "block"){
+      menu.style.display = "none";
+    } else {
+      menu.style.display = "block";
+    }
+
+  } else {
+    window.location.href = "login.html";
+  }
+}
+
+function logout(){
+  firebase.auth().signOut().then(()=>{
+    alert("Logout ho gaya 👍");
+    location.reload();
+  });
 }
 </script>
 <div id="uploadBox" style="display:none; padding:10px;">
