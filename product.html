@@ -142,16 +142,21 @@ header {
 
 <script>
 
-// 🔥 LOAD DATA FROM INDEX
+
+// DATA LOAD
 let name = localStorage.getItem("pname");
 let price = localStorage.getItem("pprice");
 let image = localStorage.getItem("pimage");
 
-// SET DATA
-document.getElementById("pimg").src = image;
-document.getElementById("pname").innerText = name;
-document.getElementById("pprice").innerText = "₹" + price;
+// DEBUG
+console.log("NAME:", name);
+console.log("PRICE:", price);
+console.log("IMAGE:", image);
 
+// SHOW DATA
+document.getElementById("pname").innerText = name || "No Name";
+document.getElementById("pprice").innerText = "₹" + (price || "0");
+document.getElementById("pimg").src = image || "https://via.placeholder.com/300";
 // BACK
 function goBack(){
   window.history.back();
