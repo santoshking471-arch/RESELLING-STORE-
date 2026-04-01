@@ -235,49 +235,16 @@ function loadProducts(){
   });
 }
 
-// DETAILS POPUP
-function showDetails(name,price){
-  alert(
-    "🛒 Product Details\n\n"+
-    "Name: "+name+"\n"+
-    "Price: ₹"+price+"\n\n"+
-    "Click Buy to order 😎"
-  );
-}
 
 // BUY WITH PHONE
-function buy(id,name,price){
-  let user=auth.currentUser;
 
-  if(!user){
-    if(confirm("Login required")){
-      login();
-    }
-    return;
-  }
+function buyNow(name, price, image){
+  localStorage.setItem("pname", name);
+  localStorage.setItem("pprice", price);
+  localStorage.setItem("pimage", image);
 
-  let cname=prompt("Enter Name");
-  let phone=prompt("Enter Mobile Number");
-  let address=prompt("Enter Address");
-
-  if(!phone || phone.length<10){
-    alert("Valid mobile number dal 😤");
-    return;
-  }
-
-  db.collection("orders").add({
-    productName:name,
-    price:price,
-    user:user.email,
-    name:cname,
-    phone:phone,
-    address:address,
-    time:new Date()
-  });
-
-  alert("Order Placed ✅");
+  window.location.href = "product.html";
 }
-
 // ADMIN IMAGE UPLOAD
 
 
