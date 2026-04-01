@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Details</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #f1f3f6;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(45deg,#2874f0,#1c5ed6);
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+}
+
+/* IMAGE */
+.product-img {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
+  background: #fff;
+}
+
+/* DETAILS */
+.details {
+  padding: 15px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.price {
+  color: green;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.desc {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* FEATURES */
+.features {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.features li {
+  margin-bottom: 5px;
+}
+
+/* BUTTONS */
+.btns {
+  display: flex;
+  gap: 10px;
+}
+
+.cart-btn {
+  flex: 1;
+  padding: 12px;
+  background: orange;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.buy-btn {
+  flex: 1;
+  padding: 12px;
+  background: #ff3f6c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+/* BACK BTN */
+.back {
+  padding: 10px;
+  cursor: pointer;
+  color: #2874f0;
+}
+</style>
+</head>
+
+<body>
+
+<header>TyFenix Product</header>
+
+<div class="container">
+
+  <div class="back" onclick="goBack()">← Back</div>
+
+  <!-- IMAGE -->
+  <img id="pimg" class="product-img">
+
+  <!-- DETAILS -->
+  <div class="details">
+    <div class="title" id="pname"></div>
+    <div class="price" id="pprice"></div>
+
+    <div class="desc">
+      Premium quality product 😎 <br>
+      Best for daily use. <br>
+      Limited stock available!
+    </div>
+
+    <ul class="features">
+      <li>✔ High Quality</li>
+      <li>✔ Fast Delivery</li>
+      <li>✔ Cash on Delivery Available</li>
+    </ul>
+
+    <!-- BUTTONS -->
+    <div class="btns">
+      <button class="cart-btn" onclick="addCart()">Add to Cart</button>
+      <button class="buy-btn" onclick="orderNow()">Buy Now</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+// 🔥 LOAD DATA FROM INDEX
+let name = localStorage.getItem("pname");
+let price = localStorage.getItem("pprice");
+let image = localStorage.getItem("pimage");
+
+// SET DATA
+document.getElementById("pimg").src = image;
+document.getElementById("pname").innerText = name;
+document.getElementById("pprice").innerText = "₹" + price;
+
+// BACK
+function goBack(){
+  window.history.back();
+}
+
+// ADD CART (simple demo)
+function addCart(){
+  alert("Added to Cart 🛒");
+}
+
+// BUY (WhatsApp)
