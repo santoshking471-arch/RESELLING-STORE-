@@ -163,3 +163,11 @@ function addCart(){
 }
 
 // BUY (WhatsApp)
+  
+function orderNow(){
+  localStorage.setItem("pname", name);
+  localStorage.setItem("pprice", price);
+  localStorage.setItem("pimage", image);
+
+  window.location.href = "buy.html";
+}
