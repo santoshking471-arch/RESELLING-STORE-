@@ -235,7 +235,13 @@ function loadProducts(){
   });
 }
 
+function showDetails(name, price, image){
+  localStorage.setItem("pname", name);
+  localStorage.setItem("pprice", price);
+  localStorage.setItem("pimage", image);
 
+  window.location.href = "product.html";
+}
 // BUY WITH PHONE
 
 function buyNow(name, price, image){
