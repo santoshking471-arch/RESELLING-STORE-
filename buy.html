@@ -75,9 +75,10 @@ body {
 
   <!-- DETAILS -->
   <div class="details">
-    <div class="title">Tyfenix Premium Product</div>
-    <div class="price">₹499</div>
-    <div class="desc">
+    <img id="bimg" class="product-img">
+
+<div class="title" id="bname"></div>
+<div class="price" id="bprice"></div>
       High quality product 😎  
       Best for daily use.  
       Limited stock available!
@@ -89,7 +90,18 @@ body {
 
 </div>
 
-<script>
+
+  <script>
+window.onload = function(){
+  let name = localStorage.getItem("pname");
+  let price = localStorage.getItem("pprice");
+  let image = localStorage.getItem("pimage");
+
+  document.getElementById("bname").innerText = name;
+  document.getElementById("bprice").innerText = "₹" + price;
+  document.getElementById("bimg").src = image;
+}
+
 function orderNow(){
   window.open("https://wa.me/918817409243?text=I want to buy this product");
 }
