@@ -67,18 +67,18 @@ body {
 </head>
 
 <body>
-
 <div class="container">
 
   <!-- IMAGE -->
-  <img src="https://i.imgur.com/N8BVXRG.jpeg" class="product-img">
+  <img id="bimg" class="product-img">
 
   <!-- DETAILS -->
   <div class="details">
-    <img id="bimg" class="product-img">
 
-<div class="title" id="bname"></div>
-<div class="price" id="bprice"></div>
+    <div class="title" id="bname"></div>
+    <div class="price" id="bprice"></div>
+
+    <div class="desc">
       High quality product 😎  
       Best for daily use.  
       Limited stock available!
@@ -86,12 +86,11 @@ body {
 
     <!-- BUY BUTTON -->
     <button class="buy-btn" onclick="orderNow()">Buy Now</button>
+
   </div>
 
 </div>
-
-
-  <script>
+<script>
 window.onload = function(){
   let name = localStorage.getItem("pname");
   let price = localStorage.getItem("pprice");
