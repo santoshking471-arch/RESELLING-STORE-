@@ -99,18 +99,28 @@ function login(){
   auth.signInWithEmailAndPassword(email, pass)
   .then((userCredential) => {
 
-  let user = userCredential.user;
+    let user = userCredential.user;
 
-  // 🔥 FIRESTORE में user save
-  db.collection("users").doc(user.uid).set({
-    email: user.email,
-    uid: user.uid,
-    createdAt: new Date()
-  });
+    // 🔥 DEBUG
+    console.log("Login OK", user.email);
 
-  alert("Login success ✅");
-  window.location.href = "index.html";
-})
+    // 🔥 SAVE USER
+    db.collection("users").doc(user.uid).set({
+      email: user.email,
+      uid: user.uid,
+      createdAt: new Date()
+    })
+    .then(()=>{
+      console.log("User Saved ✅");
+      alert("Login success ✅");
+      window.location.href = "index.html";
+    })
+    .catch(err=>{
+      console.log("Firestore error:", err);
+      alert("Save error ❌");
+    });
+
+  })
   .catch(err => {
     alert(err.message);
   });
