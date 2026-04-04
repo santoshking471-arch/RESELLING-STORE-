@@ -221,7 +221,7 @@ function loadProducts(){
 
       html+=`
       <div class="card">
-        <img src="${p.image}" onclick="showDetails('${p.name}', '${p.price}', '${p.image}')">
+        <img src="${p.image}" onclick="checkLoginAndBuy('${p.name}', '${p.price}', '${p.image}')">
         <h4>${p.name}</h4>
 
         <div class="priceRow">
