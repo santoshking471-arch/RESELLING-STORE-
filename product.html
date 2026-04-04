@@ -11,7 +11,6 @@ body {
   background: #f1f3f6;
 }
 
-/* HEADER */
 header {
   background: linear-gradient(45deg,#2874f0,#1c5ed6);
   color: white;
@@ -21,14 +20,12 @@ header {
   font-weight: bold;
 }
 
-/* CONTAINER */
 .container {
   max-width: 500px;
   margin: auto;
   background: white;
 }
 
-/* IMAGE */
 .product-img {
   width: 100%;
   height: 300px;
@@ -36,7 +33,6 @@ header {
   background: #fff;
 }
 
-/* DETAILS */
 .details {
   padding: 15px;
 }
@@ -59,16 +55,15 @@ header {
   margin-bottom: 20px;
 }
 
-/* FEATURES */
 .features {
   font-size: 14px;
   margin-bottom: 20px;
 }
+
 .features li {
   margin-bottom: 5px;
 }
 
-/* BUTTONS */
 .btns {
   display: flex;
   gap: 10px;
@@ -94,7 +89,6 @@ header {
   font-size: 16px;
 }
 
-/* BACK BTN */
 .back {
   padding: 10px;
   cursor: pointer;
@@ -118,7 +112,7 @@ header {
   <div class="details">
     <div class="title" id="pname"></div>
     <div class="price" id="pprice"></div>
-    <div class="image" id="pimage""></div>
+
     <div class="desc">
       Premium quality product 😎 <br>
       Best for daily use. <br>
@@ -131,7 +125,6 @@ header {
       <li>✔ Cash on Delivery Available</li>
     </ul>
 
-    <!-- BUTTONS -->
     <div class="btns">
       <button class="cart-btn" onclick="addCart()">Add to Cart</button>
       <button class="buy-btn" onclick="orderNow()">Buy Now</button>
@@ -142,37 +135,32 @@ header {
 
 <script>
 
+// ✅ DATA LOAD (FIXED)
+let name = localStorage.getItem("pname");
+let price = localStorage.getItem("pprice");
+let image = localStorage.getItem("pimage");
 
-// DATA LOAD
-let name = localStorage.getItem("pname"name);
-let price = localStorage.getItem("pprice"price);
-let image = localStorage.getItem"pimage"image);
-
-// DEBUG
-console.log("NAME:", name);
-console.log("PRICE:", price);
-console.log("IMAGE:", image);
-
-// SHOW DATA
+// ✅ SHOW DATA
 document.getElementById("pname").innerText = name || "No Name";
 document.getElementById("pprice").innerText = "₹" + (price || "0");
-document.getElementById("pimg").src = image || "https://via.placeholder.com/300";
+document.getElementById("pimg").src = image || "https://i.imgur.com/N8BVXRG.jpeg";
+
 // BACK
 function goBack(){
   window.history.back();
 }
 
-// ADD CART (simple demo)
+// ADD CART
 function addCart(){
   alert("Added to Cart 🛒");
 }
 
-// BUY (WhatsApp)
-  
+// BUY
 function orderNow(){
-  localStorage.setItem("pname", name);
-  localStorage.setItem("pprice", price);
-  localStorage.setItem("pimage", image);
-
   window.location.href = "buy.html";
 }
+
+</script>
+
+</body>
+</html>
