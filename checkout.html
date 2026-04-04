@@ -4,78 +4,85 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout</title>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
 <style>
-body {font-family:Arial;background:#f1f5f9;margin:0;}
+body{
+  font-family: Arial;
+  background:#f1f3f6;
+  margin:0;
+}
 
-.container {
+.container{
   max-width:500px;
   margin:auto;
-  background:white;
+  background:#fff;
   padding:15px;
 }
 
-input, textarea {
+input, textarea{
   width:100%;
   padding:10px;
   margin-bottom:10px;
-  border-radius:6px;
   border:1px solid #ccc;
+  border-radius:5px;
+  font-size:15px;
 }
 
-button {
+button{
   width:100%;
   padding:12px;
-  background:#22c55e;
-  color:white;
+  background:#ff3f6c;
+  color:#fff;
   border:none;
   border-radius:6px;
   font-size:16px;
 }
 </style>
+
+<!-- 🔥 FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<h2>Delivery Details 🚚</h2>
+  <h2>Checkout</h2>
 
-<input id="name" placeholder="Full Name">
-<input id="mobile" placeholder="Mobile Number">
-<input id="altmobile" placeholder="Alternative Mobile (optional)">
-<textarea id="address" placeholder="Full Address"></textarea>
-<input id="pincode" placeholder="Pincode">
+  <input type="text" id="name" placeholder="Full Name">
+  <input type="number" id="mobile" placeholder="Mobile Number">
+  <input type="number" id="altmobile" placeholder="Alternative Mobile (Optional)">
+  <textarea id="address" placeholder="Address"></textarea>
+  <input type="number" id="pincode" placeholder="Pincode">
 
-<button onclick="placeOrder()">Place Order</button>
+  <button onclick="placeOrder()">Place Order</button>
 
 </div>
 
 <script>
 
-// 🔥 SAME FIREBASE CONFIG (copy from index)
-const firebaseConfig = {
-apiKey: "AIzaSyCA49EYDbqUnYu1sXs0ETDMIGaWxtoxXOM",
-authDomain: "reselling-store-c103e.firebaseapp.com",
-projectId: "reselling-store-c103e",
-storageBucket: "reselling-store-c103e.firebasestorage.app",
-messagingSenderId: "411682468136",
-appId: "1:411682468136:web:79cc2b622148f42a62e01d"
+/// 🔥 FIREBASE CONFIG (👉 अपना डालना)
+var firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID"
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+var db = firebase.firestore();
 
-// 🛒 PRODUCT DATA
+
+/// 🔥 PRODUCT DATA
 let pname = localStorage.getItem("pname");
 let pprice = localStorage.getItem("pprice");
 let pimage = localStorage.getItem("pimage");
 
-// 📦 ORDER SAVE
+
+/// 🔥 PLACE ORDER FUNCTION
 function placeOrder(){
+
+  alert("Clicked 😎"); // debug
 
   let name = document.getElementById("name").value;
   let mobile = document.getElementById("mobile").value;
@@ -83,7 +90,6 @@ function placeOrder(){
   let address = document.getElementById("address").value;
   let pincode = document.getElementById("pincode").value;
 
-  // validation
   if(!name || !mobile || !address || !pincode){
     alert("Please fill all required fields 😒");
     return;
@@ -96,7 +102,6 @@ function placeOrder(){
     address: address,
     pincode: pincode,
 
-    // product info
     productName: pname,
     productPrice: pprice,
     productImage: pimage,
@@ -113,6 +118,8 @@ function placeOrder(){
     document.getElementById("address").value = "";
     document.getElementById("pincode").value = "";
 
+    // optional redirect
+    window.location.href = "index.html";
   })
   .catch((err)=>{
     console.error(err);
@@ -121,7 +128,6 @@ function placeOrder(){
 
 }
 
-}
 </script>
 
 </body>
