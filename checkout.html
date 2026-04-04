@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<style>
+body {font-family:Arial;background:#f1f5f9;margin:0;}
+
+.container {
+  max-width:500px;
+  margin:auto;
+  background:white;
+  padding:15px;
+}
+
+input, textarea {
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+button {
+  width:100%;
+  padding:12px;
+  background:#22c55e;
+  color:white;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Delivery Details 🚚</h2>
+
+<input id="name" placeholder="Full Name">
+<input id="mobile" placeholder="Mobile Number">
+<input id="altmobile" placeholder="Alternative Mobile (optional)">
+<textarea id="address" placeholder="Full Address"></textarea>
+<input id="pincode" placeholder="Pincode">
+
+<button onclick="placeOrder()">Place Order</button>
+
+</div>
+
+<script>
+
+// 🔥 SAME FIREBASE CONFIG (copy from index)
+const firebaseConfig = {
+apiKey: "AIzaSyCA49EYDbqUnYu1sXs0ETDMIGaWxtoxXOM",
+authDomain: "reselling-store-c103e.firebaseapp.com",
+projectId: "reselling-store-c103e",
+storageBucket: "reselling-store-c103e.firebasestorage.app",
+messagingSenderId: "411682468136",
+appId: "1:411682468136:web:79cc2b622148f42a62e01d"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// 🛒 PRODUCT DATA
+let pname = localStorage.getItem("pname");
+let pprice = localStorage.getItem("pprice");
+let pimage = localStorage.getItem("pimage");
+
+// 📦 ORDER SAVE
+function placeOrder(){
+
+  let name = document.getElementById("name").value;
+  let mobile = document.getElementById("mobile").value;
+  let altmobile = document.getElementById("altmobile").value;
+  let address = document.getElementById("address").value;
+  let pincode = document.getElementById("pincode").value;
+
+  if(!name || !mobile || !address || !pincode){
+    alert("Please fill all required fields 😒");
+    return;
+  }
+
+  db.collection("orders").add({
+    customerName: name,
+    mobile: mobile,
+    altmobile: altmobile,
+    address: address,
+    pincode: pincode,
+
+    productName: pname,
+    productPrice: pprice,
+    productImage: pimage,
+
+    date: new Date()
+  })
+  .then(()=>{
+    alert("Order Placed Successfully 🎉");
+    window.location.href = "index.html";
+  });
+
+}
+</script>
+
+</body>
+</html>
