@@ -94,6 +94,22 @@ header {
   cursor: pointer;
   color: #2874f0;
 }
+  .imgBox{
+  position: relative;
+}
+
+.shareIcon{
+  position: absolute;
+  right: 15px;
+  bottom: 20px;
+
+  width: 55px;
+  height: 55px;
+
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
 </style>
 </head>
 
@@ -107,6 +123,11 @@ header {
 
   <!-- IMAGE -->
   <img id="pimg" class="product-img">
+
+   <!-- 🔗 Share Button (YAHI ADD KIYA 😏) -->
+  <img src="https://i.imgur.com/gSSvAwW.png" 
+       class="shareIcon" 
+       onclick="openShare()" />
 
   <!-- DETAILS -->
   <div class="details">
@@ -159,7 +180,10 @@ function addCart(){
 function orderNow(){
   window.location.href = "checkout.html";
 }
-
+function openShare(){
+  let id = localStorage.getItem("pid") || 101; // future use
+  window.location.href = "share.html?id=" + id;
+  }
 </script>
 
 </body>
