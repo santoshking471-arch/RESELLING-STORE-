@@ -1,362 +1,327 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Online Store</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:title" content="Online Store">
-<meta property="og:description" content="Best Products at Low Price">
-<meta property="og:image" content="https://i.imgur.com/nwferVa.png">
-<meta property="og:url" content="https://santoshking471-arch.github.io/RESELLING-STORE-/">
-<meta property="og:type" content="website">
+<!DOCTYPE html>  <html>  
+<head>  
+<title>Online Store</title>  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<meta property="og:title" content="Online Store">  
+<meta property="og:description" content="Best Products at Low Price">  
+<meta property="og:image" content="https://i.imgur.com/nwferVa.png">  
+<meta property="og:url" content="https://santoshking471-arch.github.io/RESELLING-STORE-/">  
+<meta property="og:type" content="website">  <!-- FIREBASE -->  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>  <style>  
+body {margin:0;font-family:Arial;background:#f1f5f9;}  
+header {background:#0f172a;color:white;padding:5px;text-align:center;}  
+#topBar {display:flex;justify-content:space-between;padding:6px;}  
   
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+button {padding:5px 8px;border:none;border-radius:5px;font-size:12px;}  
+#ordersBtn {display:none;background:green;color:white;}  
+#adminBtn {display:none;background:red;color:white;}  
+  
+#search {width:95%;margin:8px;padding:6px;}  
+  
+#products {  
+  display: grid;  
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));  
+  gap: 6px;  
+  padding: 6px;  
+}  
+  
+.card {  
+  background:#fff;  
+  padding: 6px;  
+  border-radius: 8px;  
+  text-align: center;  
+}  
+  
+.card img {  
+  width: 100%;  
+  height: 100px;  
+  object-fit: contain;  
+  border-radius: 6px;  
+}  
+  
+.priceRow {  
+  display: flex;  
+  justify-content: space-between;  
+  align-items: center;  
+}  
+  
+.price { color: green; font-weight: bold; }  
+.buy { background: #22c55e; color: white; }  
+</style>    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">  
+</head>  <body>  <header style="background: linear-gradient(45deg,#2874f0,#1c5ed6); padding:10px; position:relative;">    <!-- LEFT: Logo + Name -->    <div style="display:flex; align-items:center; gap:10px;">  <div style="  
+  background:white;  
+  padding:2px;  
+  border-radius:50%;  
+  display:flex;  
+  align-items:center;  
+  justify-content:center;  
+">  
+  <img src="https://i.imgur.com/N8BVXRG.jpeg" style="  
+    width:30px;  
+    height:30px;  
+    border-radius:50%;  
+    object-fit:cover;  
+  ">  
+</div>  
 
-<style>
-body {margin:0;font-family:Arial;background:#f1f5f9;}
-header {background:#0f172a;color:white;padding:5px;text-align:center;}
-#topBar {display:flex;justify-content:space-between;padding:6px;}
+<span style="
 
-button {padding:5px 8px;border:none;border-radius:5px;font-size:12px;}
-#ordersBtn {display:none;background:green;color:white;}
-#adminBtn {display:none;background:red;color:white;}
-
-#search {width:95%;margin:8px;padding:6px;}
-
-#products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 6px;
-  padding: 6px;
-}
-
-.card {
-  background:#fff;
-  padding: 6px;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.card img {
-  width: 100%;
-  height: 100px;
-  object-fit: contain;
-  border-radius: 6px;
-}
-
-.priceRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.price { color: green; font-weight: bold; }
-.buy { background: #22c55e; color: white; }
-</style>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
-</head>
-
-<body>
-
-<header style="background: linear-gradient(45deg,#2874f0,#1c5ed6); padding:10px; position:relative;">
-
-  <!-- LEFT: Logo + Name -->
-  <div style="display:flex; align-items:center; gap:10px;">
-    
-    <div style="
-      background:white;
-      padding:2px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    ">
-      <img src="https://i.imgur.com/N8BVXRG.jpeg" style="
-        width:30px;
-        height:30px;
-        border-radius:50%;
-        object-fit:cover;
-      ">
-    </div>
-
-    <span style="
-  font-size:22px;
-  font-weight:bold;
-  font-family:'Orbitron', sans-serif;
-  background: linear-gradient(90deg, #5dade2, #a569bd, #f39c12);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-      /* 🔥 outline effect * 
-   text-shadow: 0 0 1px rgba(0,0,0,0.3);   
-      ">
-  TyFenix
+font-size:22px;
+font-weight:bold;
+font-family:'Orbitron', sans-serif;
+background: linear-gradient(90deg, #5dade2, #a569bd, #f39c12);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+/* 🔥 outline effect *
+text-shadow: 0 0 1px rgba(0,0,0,0.3);
+">
+TyFenix
 </span>
 
-  </div>
-
-  <!-- RIGHT: SAME LOGIN ICON (unchanged) -->
-  <span onclick="handleUser()"
-  style="
-    position:absolute;
-    right:10px;
-    top:15px;
-    cursor:pointer;
-    background:white;
-    padding:6px;
-    border-radius:50%;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-  ">
-    👤
-  </span>
-
-<div id="userMenu" style="
-display:none;
-position:absolute;
-right:10px;
-top:60px;
-background:white;
-padding:10px;
-border-radius:6px;
-box-shadow:0 2px 10px rgba(0,0,0,0.2);
+  </div>    <!-- RIGHT: SAME LOGIN ICON (unchanged) -->  <span onclick="handleUser()"  
+style="  
+position:absolute;  
+right:10px;  
+top:15px;  
+cursor:pointer;  
+background:white;  
+padding:6px;  
+border-radius:50%;  
+display:inline-flex;  
+align-items:center;  
+justify-content:center;  
 ">
-  <div onclick="logout()" style="cursor:pointer;color:black,">Logout</div>
-</div>
+👤
+</span>
 
+<div id="userMenu" style="  
+display:none;  
+position:absolute;  
+right:10px;  
+top:60px;  
+background:white;  
+padding:10px;  
+border-radius:6px;  
+box-shadow:0 2px 10px rgba(0,0,0,0.2);  
+">  
+  <div onclick="logout()" style="cursor:pointer;color:black,">Logout</div>  
+</div>  </div>  
+</header>  <div id="topBar">  <button id="adminBtn" onclick="openUpload()" style="display:none;">Upload</button>
+
+</div>  <input id="search" placeholder="Search...">  <div id="products"></div>  <input type="file" id="imgFile" style="display:none;">  <script>  
   
-</div>
-</header>
-
-<div id="topBar">
-
-<button id="adminBtn" onclick="openUpload()" style="display:none;">Upload</button>
-</div>
-
-<input id="search" placeholder="Search...">
-
-<div id="products"></div>
-
-<input type="file" id="imgFile" style="display:none;">
-
-<script>
-
-const ADMIN_EMAIL = "santoshking471@gmail.com";
-
-// 🔥 FINAL CORRECT CONFIG
-const firebaseConfig = {
-apiKey: "AIzaSyCA49EYDbqUnYu1sXs0ETDMIGaWxtoxXOM",
-authDomain: "reselling-store-c103e.firebaseapp.com",
-databaseURL: "https://reselling-store-c103e-default-rtdb.firebaseio.com",
-projectId: "reselling-store-c103e",
-storageBucket: "reselling-store-c103e.firebasestorage.app",
-messagingSenderId: "411682468136",
-appId: "1:411682468136:web:79cc2b622148f42a62e01d",
-measurementId: "G-9YREW04W1X"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+const ADMIN_EMAIL = "santoshking471@gmail.com";  
   
-function handleUser(){
-  const user = firebase.auth().currentUser;
-
-  if(user){
-    let menu = document.getElementById("userMenu");
-
-    if(menu.style.display === "block"){
-      menu.style.display = "none";
-    } else {
-      menu.style.display = "block";
-    }
-
-  } else {
-    window.location.href = "login.html";
-  }
-}
-
-function logout(){
-  firebase.auth().signOut()
-  .then(() => {
-    document.getElementById("userMenu").style.display = "none";
-    alert("Logout ho gaya 👍");
-    location.reload();
-  });
-}
-// LOGIN CHECK
-auth.onAuthStateChanged(user=>{
+// 🔥 FINAL CORRECT CONFIG  
+const firebaseConfig = {  
+apiKey: "AIzaSyCA49EYDbqUnYu1sXs0ETDMIGaWxtoxXOM",  
+authDomain: "reselling-store-c103e.firebaseapp.com",  
+databaseURL: "https://reselling-store-c103e-default-rtdb.firebaseio.com",  
+projectId: "reselling-store-c103e",  
+storageBucket: "reselling-store-c103e.firebasestorage.app",  
+messagingSenderId: "411682468136",  
+appId: "1:411682468136:web:79cc2b622148f42a62e01d",  
+measurementId: "G-9YREW04W1X"  
+};  
+firebase.initializeApp(firebaseConfig);  
+const auth = firebase.auth();  
+const db = firebase.firestore();  
+const storage = firebase.storage();  
+    
+function handleUser(){  
+  const user = firebase.auth().currentUser;  
   
-  // Orders sirf login pe
-  if(user){
-    ordersBtn.style.display="inline-block";
-  } else {
-    ordersBtn.style.display="none";
-  }
+  if(user){  
+    let menu = document.getElementById("userMenu");  
+  
+    if(menu.style.display === "block"){  
+      menu.style.display = "none";  
+    } else {  
+      menu.style.display = "block";  
+    }  
+  
+  } else {  
+    window.location.href = "login.html";  
+  }  
+}  
+  
+function logout(){  
+  firebase.auth().signOut()  
+  .then(() => {  
+    document.getElementById("userMenu").style.display = "none";  
+    alert("Logout ho gaya 👍");  
+    location.reload();  
+  });  
+}  
+// LOGIN CHECK  
+auth.onAuthStateChanged(user=>{  
+    
+  // Orders sirf login pe  
+  if(user){  
+    ordersBtn.style.display="inline-block";  
+  } else {  
+    ordersBtn.style.display="none";  
+  }  
+  
+  // 🔥 Upload sirf admin ko  
+  if(user && user.email === ADMIN_EMAIL){  
+    adminBtn.style.display="inline-block";  
+  } else {  
+    adminBtn.style.display="none";  
+  }  
+  
+});  
+  
+// LOGIN  
+function login(){  
+  let email=prompt("Email");  
+  let pass=prompt("Password");  
+  
+  auth.signInWithEmailAndPassword(email,pass)  
+  .catch(()=>auth.createUserWithEmailAndPassword(email,pass));  
+}  
+  
+// LOAD PRODUCTS  
+function loadProducts(){  
+  db.collection("products").onSnapshot(data=>{  
+    let html="";  
+    data.forEach(doc=>{  
+      let p=doc.data();  
+  
+      console.log(p);  
+  
+      html+=`  
+      <div class="card">  
+        <img src="${p.image}" onclick="checkLoginAndBuy('${p.name}', '${p.price}', '${p.image}')">  
+        <h4>${p.name}</h4>  
+  
+        <div class="priceRow">  
+          <span class="price">₹${p.price}  
+          <button class="buy" onclick="checkLoginAndBuy('${p.name}', '${p.price}', '${p.image}')">Buy</button>  
+        </div>  
+      </div>`;  
+    });  
+  
+    products.innerHTML=html;  
+  });  
+}  
+  
+function showDetails(name, price, image){  
+  localStorage.setItem("pname", name);  
+  localStorage.setItem("pprice", price);  
+  localStorage.setItem("pimage", image);  
+  
+  window.location.href = "product.html?id"+ id;  
+}  
+// BUY WITH PHONE  
+  
+function buyNow(name, price, image){  
+  localStorage.setItem("pname", name);  
+  localStorage.setItem("pprice", price);  
+  localStorage.setItem("pimage", image);  
+  
+  window.location.href = "product.html";  
+}  
+// ADMIN IMAGE UPLOAD  
+  
+  
+// SEARCH  
+search.oninput=function(){  
+  let val=this.value.toLowerCase();  
+  
+  db.collection("products").get().then(data=>{  
+    let html="";  
+    data.forEach(doc=>{  
+      let p=doc.data();  
+  
+      if(p.name.toLowerCase().includes(val)){  
+        html+=`  
+        <div class="card">  
+          <img src="${p.image}">  
+          <h4>${p.name}</h4>  
+          <div class="priceRow">  
+            <span class="price">₹${p.price}</span>  
+            <button class="buy" onclick="buy('${doc.id}','${p.name}','${p.price}')">Buy</button>  
+          </div>  
+        </div>`;  
+      }  
+    });  
+  
+    products.innerHTML=html;  
+  });  
+};  
+  
+// START  
+loadProducts();  
+function openUpload(){  
+  document.getElementById("uploadBox").style.display = "block";  
+}  
+  
+function uploadNow(){  
+  let name = document.getElementById("pname").value;  
+  let price = document.getElementById("pprice").value;  
+  let file = document.getElementById("pimage").files[0];  
+  
+  let ref = storage.ref("products/" + file.name);  
+  
+  ref.put(file).then(()=>{  
+    ref.getDownloadURL().then(url=>{  
+  
+      db.collection("products").add({  
+        name:name,  
+        price:price,  
+        image:url  
+      });  
+  
+      alert("Uploaded ✅");  
+    });  
+  });  
+}  
+function checkLoginAndBuy(name, price, image){  
+  
+  let user = firebase.auth().currentUser;  
+  
+  if(!user){  
+    alert("Please login first 😤");  
+    return;  
+  }  
+  
+  // login hai → आगे जाओ  
+  localStorage.setItem("pname", name);  
+  localStorage.setItem("pprice", price);  
+  localStorage.setItem("pimage", image);  
+  
+  window.location.href = "product.html";  
+}  
+  function handleUser(){  
+  const user = firebase.auth().currentUser;  
+  
+  if(user){  
+    const menu = document.getElementById("userMenu");  
+  
+    if(menu.style.display === "block"){  
+      menu.style.display = "none";  
+    } else {  
+      menu.style.display = "block";  
+    }  
+  
+  } else {  
+    window.location.href = "login.html";  
+  }  
+}  
+  
+function logout(){  
+  firebase.auth().signOut().then(()=>{  
+    alert("Logout ho gaya 👍");  
+    location.reload();  
+  });  
+}  
+</script>  <div id="uploadBox" style="display:none; padding:10px;">  
+  <h3>Upload Product</h3>  <input id="pname" placeholder="Product Name"><br><br>
+<input id="pprice" placeholder="Price"><br><br>
+<input type="file" id="pimage"><br><br>
 
-  // 🔥 Upload sirf admin ko
-  if(user && user.email === ADMIN_EMAIL){
-    adminBtn.style.display="inline-block";
-  } else {
-    adminBtn.style.display="none";
-  }
+<button onclick="uploadNow()">Upload Now</button>
 
-});
-
-// LOGIN
-function login(){
-  let email=prompt("Email");
-  let pass=prompt("Password");
-
-  auth.signInWithEmailAndPassword(email,pass)
-  .catch(()=>auth.createUserWithEmailAndPassword(email,pass));
-}
-
-// LOAD PRODUCTS
-function loadProducts(){
-  db.collection("products").onSnapshot(data=>{
-    let html="";
-
-    data.forEach(doc=>{
-      let p=doc.data();
-
-      html+=`
-      <div class="card">
-        <img src="${p.image}" 
-        onclick="checkLoginAndBuy('${doc.id}','${p.name}','${p.price}','${p.image}')">
-
-        <h4>${p.name}</h4>
-
-        <div class="priceRow">
-          <span class="price">₹${p.price}</span>
-
-          <button class="buy"
-          onclick="checkLoginAndBuy('${doc.id}','${p.name}','${p.price}','${p.image}')">
-          Buy
-          </button>
-        </div>
-      </div>`;
-    });
-
-    document.getElementById("products").innerHTML = html;
-  });
-  }
-
-// BUY WITH PHONE
-
-function buyNow(name, price, image){
-  localStorage.setItem("pname", name);
-  localStorage.setItem("pprice", price);
-  localStorage.setItem("pimage", image);
-
-  window.location.href = "product.html";
-}
-// ADMIN IMAGE UPLOAD
-
-
-// SEARCH
-search.oninput=function(){
-  let val=this.value.toLowerCase();
-
-  db.collection("products").get().then(data=>{
-    let html="";
-    data.forEach(doc=>{
-      let p=doc.data();
-
-      if(p.name.toLowerCase().includes(val)){
-        html+=`
-        <div class="card">
-          <img src="${p.image}">
-          <h4>${p.name}</h4>
-          <div class="priceRow">
-            <span class="price">₹${p.price}</span>
-            <button class="buy" onclick="buy('${doc.id}','${p.name}','${p.price}')">Buy</button>
-          </div>
-        </div>`;
-      }
-    });
-
-    products.innerHTML=html;
-  });
-};
-
-// START
-loadProducts();
-function openUpload(){
-  document.getElementById("uploadBox").style.display = "block";
-}
-
-function uploadNow(){
-  let name = document.getElementById("pname").value;
-  let price = document.getElementById("pprice").value;
-  let file = document.getElementById("pimage").files[0];
-
-  let ref = storage.ref("products/" + file.name);
-
-  ref.put(file).then(()=>{
-    ref.getDownloadURL().then(url=>{
-
-      db.collection("products").add({
-        name:name,
-        price:price,
-        image:url
-      });
-
-      alert("Uploaded ✅");
-    });
-  });
-}
-function checkLoginAndBuy(id, name, price, image){
-
-  let user = firebase.auth().currentUser;
-
-  if(!user){
-    alert("Please login first 😤");
-    return;
-  }
-
-  // login hai → आगे जाओ
-  localStorage.setItem("pname", name);
-  localStorage.setItem("pprice", price);
-  localStorage.setItem("pimage", image);
-
-  window.location.href = product.html?id=" + id;
-    }
-  function handleUser(){
-  const user = firebase.auth().currentUser;
-
-  if(user){
-    const menu = document.getElementById("userMenu");
-
-    if(menu.style.display === "block"){
-      menu.style.display = "none";
-    } else {
-      menu.style.display = "block";
-    }
-
-  } else {
-    window.location.href = "login.html";
-  }
-}
-
-function logout(){
-  firebase.auth().signOut().then(()=>{
-    alert("Logout ho gaya 👍");
-    location.reload();
-  });
-}
-</script>
-<div id="uploadBox" style="display:none; padding:10px;">
-  <h3>Upload Product</h3>
-
-  <input id="pname" placeholder="Product Name"><br><br>
-  <input id="pprice" placeholder="Price"><br><br>
-  <input type="file" id="pimage"><br><br>
-
-  <button onclick="uploadNow()">Upload Now</button>
-</div>
-</body>
-</html>
+</div>  
+</body>  
+</html>  Ab bata
