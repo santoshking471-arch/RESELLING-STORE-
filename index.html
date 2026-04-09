@@ -221,7 +221,8 @@ function buyNow(name, price, image){
   localStorage.setItem("pprice", price);  
   localStorage.setItem("pimage", image);  
   
-  window.location.href = "product.html";  
+  window.location.href = "product.html?id=" + id; // id bhi bhej do
+}
 }  
 // ADMIN IMAGE UPLOAD  
   
