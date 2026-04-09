@@ -181,9 +181,9 @@ function orderNow(){
   window.location.href = "checkout.html";
 }
 function openShare(){
-  let id = localStorage.getItem("pid") || 101; // future use
+  let id = new URLSearchParams(window.location.search).get("id");
   window.location.href = "share.html?id=" + id;
-  }
+}
 </script>
 
 </body>
