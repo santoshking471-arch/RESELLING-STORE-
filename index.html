@@ -293,7 +293,7 @@ function checkLoginAndBuy(name, price, image){
   localStorage.setItem("pprice", price);  
   localStorage.setItem("pimage", image);  
   
-  window.location.href = "product.html?id=" + id;
+  window.location.href = "product.html"
 }
   function handleUser(){  
   const user = firebase.auth().currentUser;  
