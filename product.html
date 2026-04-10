@@ -180,8 +180,7 @@ function addCart(){
 function orderNow(){
   window.location.href = "checkout.html";
 }
-function openShare(){
-  let id = new URLSearchParams(window.location.search).get("id");
+function openShare(id){
   window.location.href = "share.html?id=" + id;
 }
 </script>
