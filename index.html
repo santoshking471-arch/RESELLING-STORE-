@@ -185,7 +185,8 @@ function loadProducts(){
   db.collection("products").onSnapshot(data=>{  
     let html="";  
     data.forEach(doc=>{  
-      let p=doc.data();  
+    let p = doc.data();
+    let id = doc.id;   // ✅ separately lena padta hai  
   
       console.log(p);  
   
