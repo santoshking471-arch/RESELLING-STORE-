@@ -91,7 +91,7 @@ let params = new URLSearchParams(window.location.search);
 let id = params.get("id");
 
 // 🔗 Product link banao
-let productURL = window.location.origin + "/RESELLING-STORE-/product.html?id=" + id;
+let productURL = window.location.origin + "/RESELLING-STORE-/product.html?id=" + doc.id;
 
 // show link
 document.getElementById("productLink").innerText = productURL;
