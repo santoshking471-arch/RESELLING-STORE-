@@ -308,7 +308,9 @@ function checkLoginAndBuy(name, price, image){
     window.location.href = "login.html";  
   }  
 }  
-  
+function openShare(id){
+  window.location.href = "share.html?id=" + id;
+}
 function logout(){  
   firebase.auth().signOut().then(()=>{  
     alert("Logout ho gaya 👍");  
